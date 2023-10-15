@@ -2,7 +2,6 @@ package br.com.jorgedev.todolist.task;
 
 import br.com.jorgedev.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +67,7 @@ public class TaskController {
 
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity delete(TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
         var task = this.taskRepository.findById(id).orElse(null);
         if (task == null) {
