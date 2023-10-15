@@ -2,6 +2,7 @@ package br.com.jorgedev.todolist.task;
 
 import br.com.jorgedev.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,4 +68,20 @@ public class TaskController {
 
     }
 
+    public ResponseEntity delete(TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+        var task = this.taskRepository.findById(id).orElse(null);
+        if (task == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tarefa não encotrada");
+        }
+
+        var idUser = request.getAttribute("idUser");
+
+        if (!task.getIdUser().equals(idUser)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Essa tarefa não pertence ao usuário");
+        }
+
+        this.taskRepository.delete(task);
+
+        return ResponseEntity.ok().body("Task deketada com sucesso");
+    }
 }
