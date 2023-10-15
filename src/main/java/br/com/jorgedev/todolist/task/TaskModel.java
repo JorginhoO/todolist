@@ -23,6 +23,7 @@ public class TaskModel {
     private String title;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+    private String priority;
 
     private UUID idUser;
 
